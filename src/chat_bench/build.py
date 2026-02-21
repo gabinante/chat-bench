@@ -51,6 +51,9 @@ def build_all_tasks(
 
     console.print(f"Loaded {len(conversations)} conversations")
 
+    # Backfill platform from channel config (raw corpus may lack platform field)
+    _backfill_platforms(conversations)
+
     # Load queries
     all_queries: dict[str, list[RetrievalQuery]] = {}
     for scenario_file in queries_path.glob("*.jsonl"):
@@ -119,6 +122,17 @@ def build_all_tasks(
     _generate_splits(all_queries, splits_path, seed=seed)
 
     console.print(f"\n[bold green]All tasks built in {output_path}[/]")
+
+
+def _backfill_platforms(conversations: list[Conversation]) -> None:
+    """Set platform on conversations based on channel config."""
+    from .generate.reference_data import get_channel_map
+
+    channel_map = get_channel_map()
+    for conv in conversations:
+        ch = channel_map.get(conv.channel)
+        if ch:
+            conv.platform = ch.get("platform", "slack")
 
 
 def _load_conversations(path: Path) -> list[Conversation]:
