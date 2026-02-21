@@ -4,6 +4,8 @@ A benchmark for evaluating embedding models on chat/conversational retrieval tas
 
 ## Why ChatBench?
 
+Chat-format data is rapidly becoming one of the most common formats for retrieval. The rise of AI agents, multi-turn tool use, and conversational interfaces means more and more production data lives in threaded, multi-party conversations — not just in Slack and Discord, but in agent logs, support transcripts, and collaborative workflows. Embedding models need to handle this data well, but existing benchmarks don't test for it.
+
 General-purpose embedding benchmarks (MTEB, BEIR) don't test the unique challenges of chat data:
 - **Thread coherence** — messages in the same thread are related even when topically diverse
 - **Temporal adjacency** — nearby messages in a conversation are contextually linked
