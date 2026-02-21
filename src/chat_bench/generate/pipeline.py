@@ -66,6 +66,7 @@ def run_pipeline(
     if not resume:
         from .schemas import GenerationState
         state = GenerationState()
+        _clear_generated_data()
 
     client_kwargs = {}
     if model:
@@ -575,6 +576,16 @@ def _normalize_conversations(conversations: list[Conversation]) -> list[Conversa
             )
             conv.channel = canonical
     return conversations
+
+
+def _clear_generated_data() -> None:
+    """Remove generated corpus, query, and statistics files for a fresh run."""
+    if _CORPUS_PATH.exists():
+        _CORPUS_PATH.unlink()
+    for qf in _QUERIES_DIR.glob("*.jsonl"):
+        qf.unlink()
+    if _STATS_PATH.exists():
+        _STATS_PATH.unlink()
 
 
 # -- Corpus I/O helpers --
