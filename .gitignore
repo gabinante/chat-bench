@@ -1,6 +1,10 @@
-# Data (large files)
+# Secrets
+.env
+
+# Data (large / generated files)
 data/raw/
 data/corpus/
+data/metadata/
 
 # Python
 __pycache__/
@@ -29,6 +33,12 @@ venv/
 
 # Results cache
 results/
+
+# Testing
+.pytest_cache/
+htmlcov/
+coverage.xml
+.coverage
 
 # uv
 uv.lock

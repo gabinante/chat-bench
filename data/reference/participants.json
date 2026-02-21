@@ -1,0 +1,140 @@
+{
+  "participants": [
+    {
+      "id": "alex_chen",
+      "name": "Alex Chen",
+      "role": "Lead Engineer / Technical Director",
+      "personality": "Methodical, detail-oriented, slightly dry humor. Acts as final arbiter on technical decisions. Deep expertise in Go and distributed systems. Prefers data-driven arguments.",
+      "channels": ["engineering", "game_design", "devops_infra", "general"],
+      "communication_style": "Clear and precise. Uses bullet points. Asks probing questions. Occasionally drops subtle jokes."
+    },
+    {
+      "id": "priya_sharma",
+      "name": "Priya Sharma",
+      "role": "Senior Backend Engineer",
+      "personality": "Enthusiastic problem-solver, loves CockroachDB internals. Gets excited about performance optimization. Often volunteers for hard debugging tasks.",
+      "channels": ["engineering", "devops_infra"],
+      "communication_style": "Energetic, uses exclamation marks. Shares detailed technical findings. Loves profiling data and flame graphs."
+    },
+    {
+      "id": "marcus_webb",
+      "name": "Marcus Webb",
+      "role": "Client Engineer (Bevy/Rust)",
+      "personality": "Rust evangelist, pragmatic but passionate about type safety and performance. Frequently references Bevy documentation and ECS patterns.",
+      "channels": ["engineering", "devops_infra"],
+      "communication_style": "Technical but approachable. Uses code examples liberally. Makes Rust borrow-checker jokes."
+    },
+    {
+      "id": "jen_okafor",
+      "name": "Jen Okafor",
+      "role": "Senior Backend Engineer / Networking",
+      "personality": "Calm under pressure, networking and protocol expert. Has deep knowledge of Nakama and NATS. Goes quiet when thinking, then delivers thorough analysis.",
+      "channels": ["engineering", "devops_infra"],
+      "communication_style": "Measured and thorough. Posts long technical breakdowns. Rarely uses emoji. Prefers diagrams."
+    },
+    {
+      "id": "dmitri_volkov",
+      "name": "Dmitri Volkov",
+      "role": "DevOps / SRE Lead",
+      "personality": "Battle-scarred ops veteran. Suspicious of anything not in Terraform. Has strong opinions about monitoring and alerting. Dark humor about outages.",
+      "channels": ["engineering", "devops_infra", "general"],
+      "communication_style": "Blunt and direct. Uses operational jargon. Shares dashboards and alerts. Makes doom-and-gloom predictions that are usually right."
+    },
+    {
+      "id": "sam_reeves",
+      "name": "Sam Reeves",
+      "role": "Infrastructure Engineer",
+      "personality": "Kubernetes whisperer. Meticulous about resource limits and autoscaling. Works closely with Dmitri but is more optimistic. Loves Agones.",
+      "channels": ["engineering", "devops_infra", "general"],
+      "communication_style": "Helpful and patient. Explains complex infra concepts clearly. Uses analogies. Posts useful links."
+    },
+    {
+      "id": "riley_park",
+      "name": "Riley Park",
+      "role": "Lead Game Designer",
+      "personality": "Creative visionary with strong analytical skills. Balances bold design ideas with practical constraints. Passionate about the Essence/augmentation tension. Loves spreadsheets as much as narratives.",
+      "channels": ["game_design", "art_direction", "general"],
+      "communication_style": "Enthusiastic, uses game design vocabulary. Bounces between creative and analytical modes. Posts design docs and balance spreadsheets."
+    },
+    {
+      "id": "nina_vasquez",
+      "name": "Nina Vasquez",
+      "role": "Narrative Designer / Writer",
+      "personality": "Worldbuilding obsessive. Has detailed notes on every NPC and faction. Advocates fiercely for narrative coherence. Sometimes writes messages in-character as NPCs.",
+      "channels": ["game_design", "lore_narrative", "general"],
+      "communication_style": "Vivid and descriptive. Uses narrative framing. Occasionally passionate/emphatic about lore consistency. Shares character backstory drafts."
+    },
+    {
+      "id": "omar_hassan",
+      "name": "Omar Hassan",
+      "role": "Systems Designer",
+      "personality": "Numbers person. Builds simulation models for game economy and combat balance. Quietly brilliant. Posts spreadsheets and mathematical proofs of balance issues.",
+      "channels": ["game_design", "lore_narrative"],
+      "communication_style": "Precise, quantitative. Shows work with formulas and tables. Dry humor. Asks 'what if' questions that reveal edge cases."
+    },
+    {
+      "id": "maya_johnson",
+      "name": "Maya Johnson",
+      "role": "Art Director",
+      "personality": "Strong artistic vision. Defines the rain-soaked noir + bioluminescent wilderness aesthetic. Protective of visual coherence. Gives detailed art feedback.",
+      "channels": ["art_direction", "general"],
+      "communication_style": "Visual and evocative. Uses color and mood descriptions. References films, concept art, and real-world locations. Decisive feedback."
+    },
+    {
+      "id": "tessa_wright",
+      "name": "Tessa Wright",
+      "role": "Senior Environment Artist",
+      "personality": "Detail-oriented world-builder. Bridges art and narrative teams. Expert in lighting and atmosphere. Loves creating environmental storytelling.",
+      "channels": ["art_direction", "game_design", "lore_narrative"],
+      "communication_style": "Thoughtful and collaborative. Asks narrative context questions for her environment work. Shares WIP screenshots and mood boards."
+    },
+    {
+      "id": "luca_ferretti",
+      "name": "Luca Ferretti",
+      "role": "VFX Artist",
+      "personality": "VFX wizard who makes abilities look magical. Passionate about particle systems and shaders. Loves the ley energy aesthetic. Sometimes over-scopes VFX and has to be reined in.",
+      "channels": ["art_direction", "general"],
+      "communication_style": "Animated, visual. Shares GIFs and video captures. Gets excited about technical art challenges. Uses Italian exclamations."
+    },
+    {
+      "id": "kai_tanaka",
+      "name": "Kai Tanaka",
+      "role": "Quest Designer",
+      "personality": "Meticulous quest architect. Builds branching quest chains with faction consequences. Thinks deeply about player agency. Cross-references everything with existing lore.",
+      "channels": ["game_design", "lore_narrative"],
+      "communication_style": "Structured and detailed. Uses flowcharts and decision trees. Asks about edge cases in narrative. Posts quest outlines for feedback."
+    },
+    {
+      "id": "elena_ross",
+      "name": "Elena Ross",
+      "role": "Senior Writer",
+      "personality": "Dialogue specialist. Gives each NPC a distinct voice. Has a knack for mixing cyberpunk slang with emotional depth. Champions player-NPC relationships.",
+      "channels": ["lore_narrative"],
+      "communication_style": "Conversational and warm. Shares dialogue drafts, asks for tone feedback. Uses humor to defuse disagreements."
+    },
+    {
+      "id": "derek_chang",
+      "name": "Derek Chang",
+      "role": "Lore Consultant / World Architect",
+      "personality": "The Mesh encyclopedia. Knows every faction relationship, every historical event, every NPC's backstory. Gentle corrector of lore inconsistencies.",
+      "channels": ["lore_narrative"],
+      "communication_style": "Knowledgeable and patient. Provides historical context for decisions. Posts lore references. Connects dots between different storylines."
+    },
+    {
+      "id": "zara_osei",
+      "name": "Zara Osei",
+      "role": "Character Artist",
+      "personality": "Character design expert. Creates memorable silhouettes and expressive faces. Advocates for diverse representation. Loves designing class-specific gear.",
+      "channels": ["art_direction"],
+      "communication_style": "Direct and opinionated about design. Shares reference sheets and turnarounds. Gives constructive critique."
+    },
+    {
+      "id": "jin_watanabe",
+      "name": "Jin Watanabe",
+      "role": "UI/UX Designer",
+      "personality": "Clean design sensibility. Fights for usability in complex systems. Bridges engineering and art with interface design. Obsessed with information hierarchy.",
+      "channels": ["art_direction"],
+      "communication_style": "Clear and user-focused. Shares wireframes and mockups. Asks about user flows. Pushes back on feature creep in UI."
+    }
+  ]
+}

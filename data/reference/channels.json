@@ -1,0 +1,58 @@
+{
+  "channels": [
+    {
+      "id": "engineering",
+      "name": "#engineering",
+      "platform": "slack",
+      "description": "Core game server and client engineering discussions",
+      "style": "Technical, code-oriented, direct. Frequent use of Go/Rust/CockroachDB terminology. Discussions about ECS architecture, tick rates, networking, and performance. Participants share code snippets, debug logs, and profiling results.",
+      "participants": ["alex_chen", "priya_sharma", "marcus_webb", "jen_okafor", "dmitri_volkov", "sam_reeves"],
+      "topics": ["game server architecture", "Bevy client", "CockroachDB optimization", "ECS design", "networking", "Agones scaling", "NATS messaging", "protocol buffers"]
+    },
+    {
+      "id": "game_design",
+      "name": "#game-design",
+      "platform": "discord",
+      "description": "Game mechanics, class balance, content design",
+      "style": "Creative but analytical. Mixes narrative flavor with numbers and formulas. Discussions about class balance, ability tuning, rift mechanics, and player progression. References game design documents and playtest data.",
+      "participants": ["riley_park", "nina_vasquez", "omar_hassan", "alex_chen", "tessa_wright", "kai_tanaka"],
+      "topics": ["class balance", "ability design", "rift mechanics", "progression systems", "crafting", "PvP balance", "ley tide cycles", "essence system"]
+    },
+    {
+      "id": "art_direction",
+      "name": "#art-direction",
+      "platform": "discord",
+      "description": "Visual design, environment art, character concepts",
+      "style": "Visual and evocative. Heavy use of artistic terminology, reference images, and mood descriptions. Discussions about zone aesthetics, character designs, VFX, and the cyberpunk-meets-nature art style.",
+      "participants": ["maya_johnson", "tessa_wright", "luca_ferretti", "riley_park", "zara_osei", "jin_watanabe"],
+      "topics": ["environment art", "character design", "VFX", "UI design", "zone aesthetics", "rift interiors", "bioluminescence", "cyberpunk noir"]
+    },
+    {
+      "id": "lore_narrative",
+      "name": "#lore-narrative",
+      "platform": "irc",
+      "description": "World-building, quest writing, NPC development",
+      "style": "Narrative-driven, imaginative. In-depth discussions about faction politics, NPC motivations, quest chains, and world history. Sometimes includes in-character dialogue drafts and lore document excerpts.",
+      "participants": ["nina_vasquez", "omar_hassan", "tessa_wright", "kai_tanaka", "elena_ross", "derek_chang"],
+      "topics": ["NPC storylines", "faction politics", "quest design", "world history", "The Collision lore", "dragon politics", "zone narratives", "player choices"]
+    },
+    {
+      "id": "devops_infra",
+      "name": "#devops-infra",
+      "platform": "slack",
+      "description": "Infrastructure, deployment, CI/CD, monitoring",
+      "style": "Operational, concise, urgent during incidents. Discussions about Kubernetes clusters, Agones game server allocation, CockroachDB cluster health, monitoring dashboards, and deployment pipelines.",
+      "participants": ["sam_reeves", "dmitri_volkov", "jen_okafor", "priya_sharma", "marcus_webb", "alex_chen"],
+      "topics": ["Kubernetes", "Agones", "Terraform", "CI/CD", "monitoring", "CockroachDB ops", "Redis", "incident response", "load testing"]
+    },
+    {
+      "id": "general",
+      "name": "#general",
+      "platform": "irc",
+      "description": "Water cooler, announcements, cross-team coordination",
+      "style": "Casual and friendly. Mix of studio announcements, cross-team questions, social chat, and quick coordination. Lighter tone than specialty channels.",
+      "participants": ["alex_chen", "riley_park", "maya_johnson", "sam_reeves", "nina_vasquez", "omar_hassan", "priya_sharma", "tessa_wright", "luca_ferretti", "dmitri_volkov"],
+      "topics": ["announcements", "milestones", "cross-team coordination", "social", "playtests", "industry news", "team events"]
+    }
+  ]
+}

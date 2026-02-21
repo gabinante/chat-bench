@@ -1,0 +1,837 @@
+[
+  {
+    "query_id": "thread_discrimination_008",
+    "query_text": "want details on resolving inconsistencies in ancient creature backstory and age discrepancies",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "lore_narrative_001"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_005",
+      "lore_narrative_005",
+      "lore_narrative_005"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Separates dragon lore inconsistencies from general architectural worldbuilding"
+  },
+  {
+    "query_id": "thread_discrimination_017",
+    "query_text": "looking for worldbuilding discussions about ancient creatures and their political motivations",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "lore_narrative_001"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_005"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Separates dragon politics lore from architectural worldbuilding discussions"
+  },
+  {
+    "query_id": "thread_discrimination_007",
+    "query_text": "searching for character class visual identity discussions focused on disciplined martial aesthetics",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "art_direction_002"
+    ],
+    "hard_negative_ids": [
+      "art_direction_008",
+      "art_direction_008",
+      "art_direction_008"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Distinguishes Adept design philosophy from general Shaman spirit visualization work"
+  },
+  {
+    "query_id": "thread_discrimination_011",
+    "query_text": "searching for container orchestration discussions about spell effect processing load during magical surges",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "devops_infra_002"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_008",
+      "devops_infra_008",
+      "devops_infra_008"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Separates ley tide Agones scaling from general health check configurations"
+  },
+  {
+    "query_id": "thread_discrimination_016",
+    "query_text": "want info on visual effects optimization strategies for magical environmental systems",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "art_direction_001"
+    ],
+    "hard_negative_ids": [
+      "art_direction_005"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Distinguishes specific ley tide VFX work from broader environmental magical effects"
+  },
+  {
+    "query_id": "thread_discrimination_002",
+    "query_text": "need info on designing component architectures for large-scale raid instances with 40+ concurrent players",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "engineering_002"
+    ],
+    "hard_negative_ids": [
+      "engineering_009",
+      "engineering_009",
+      "engineering_009"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Distinguishes between rift scaling ECS design vs general entity pooling optimizations"
+  },
+  {
+    "query_id": "thread_discrimination_012",
+    "query_text": "want details on debugging server performance problems during magical calculation peak loads",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "general_001"
+    ],
+    "hard_negative_ids": [
+      "general_005",
+      "general_005",
+      "general_005"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Differentiates ley tide performance issues from general alpha testing problems"
+  },
+  {
+    "query_id": "thread_discrimination_003",
+    "query_text": "searching for database migration planning related to fractional stat tracking and character progression",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "engineering_003"
+    ],
+    "hard_negative_ids": [
+      "engineering_010",
+      "engineering_011"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Differentiates essence system migration from general database performance or history queries"
+  },
+  {
+    "query_id": "thread_discrimination_015",
+    "query_text": "searching for balance discussions about making high-tier magical abilities more accessible to players",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "game_design_001"
+    ],
+    "hard_negative_ids": [
+      "game_design_005"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Differentiates essence consumption rework from general energy management problems"
+  },
+  {
+    "query_id": "thread_discrimination_018",
+    "query_text": "need infrastructure planning discussions for handling increased database load during special events",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "devops_infra_001"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_005"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Differentiates specific rift nexus scaling from general database migration work"
+  },
+  {
+    "query_id": "thread_discrimination_009",
+    "query_text": "looking for narrative design discussions about creating sentient AI factions in dimensional ruins",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "lore_narrative_002"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_008",
+      "lore_narrative_008",
+      "lore_narrative_008"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Differentiates Archive AI brainstorming from general Foundation leadership design"
+  },
+  {
+    "query_id": "thread_discrimination_001",
+    "query_text": "looking for discussions about server-side spell calculation bottlenecks that were causing multi-second delays",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "engineering_001"
+    ],
+    "hard_negative_ids": [
+      "engineering_006",
+      "engineering_006",
+      "engineering_006"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Discriminates between ley tide performance fixes vs general ley line rendering optimizations"
+  },
+  {
+    "query_id": "thread_discrimination_004",
+    "query_text": "want details on fixing magic user damage calculation bugs where bonuses were multiplying incorrectly",
+    "scenario": "thread_discrimination",
+    "relevant_conversation_ids": [
+      "game_design_001"
+    ],
+    "hard_negative_ids": [
+      "game_design_005",
+      "game_design_005",
+      "game_design_005"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Separates Channeler scaling fixes from general energy management issues"
+  },
+  {
+    "query_id": "topic_retrieval_002",
+    "query_text": "What architectural decisions were made for scaling large multiplayer instances in dimensional zones?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "engineering_002"
+    ],
+    "hard_negative_ids": [
+      "engineering_009",
+      "engineering_007",
+      "engineering_008"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Several conversations discuss scaling architecture, requires understanding of ECS vs rift-specific scaling approaches"
+  },
+  {
+    "query_id": "topic_retrieval_013",
+    "query_text": "How did the art team develop the visual identity for the forest settlement controlled by ancient beings?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "general_002"
+    ],
+    "hard_negative_ids": [
+      "general_008",
+      "general_009",
+      "general_010"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Thornhold art discussion mixed with other topics, requires identifying specific aesthetic development"
+  },
+  {
+    "query_id": "topic_retrieval_006",
+    "query_text": "What approach was taken to standardize magical energy effects across different zones?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "art_direction_001"
+    ],
+    "hard_negative_ids": [
+      "art_direction_005",
+      "art_direction_006",
+      "art_direction_004"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Multiple VFX conversations about ley energy, requires identifying standardization vs zone-specific work"
+  },
+  {
+    "query_id": "topic_retrieval_017",
+    "query_text": "How was the information broker network's power structure clarified in the underground faction?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "lore_narrative_010"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_009",
+      "lore_narrative_007",
+      "lore_narrative_011"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Multiple Foundation political discussions, requires distinguishing Marcus Zero's role vs general faction dynamics"
+  },
+  {
+    "query_id": "topic_retrieval_003",
+    "query_text": "How was the character augmentation tracking system implemented in the database?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "engineering_003"
+    ],
+    "hard_negative_ids": [
+      "engineering_010",
+      "engineering_011",
+      "engineering_007"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Multiple database conversations, requires distinguishing essence system vs general database work"
+  },
+  {
+    "query_id": "topic_retrieval_001",
+    "query_text": "How do we handle server performance issues when magical abilities cause database slowdowns?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "engineering_001"
+    ],
+    "hard_negative_ids": [
+      "engineering_006",
+      "engineering_004",
+      "engineering_005"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Multiple engineering conversations discuss performance issues, requires distinguishing between ley tide specific problems vs general optimization"
+  },
+  {
+    "query_id": "topic_retrieval_005",
+    "query_text": "How did the team solve progression gaps between different tiers of group content?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "game_design_002"
+    ],
+    "hard_negative_ids": [
+      "game_design_008",
+      "game_design_009",
+      "game_design_006"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Multiple rift-related conversations, requires distinguishing scaling progression vs mechanics design"
+  },
+  {
+    "query_id": "topic_retrieval_010",
+    "query_text": "What solutions were implemented for distributed database performance during high-traffic events?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "devops_infra_001"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_005",
+      "devops_infra_004",
+      "devops_infra_006"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Multiple CockroachDB conversations, requires distinguishing rift events vs general database work"
+  },
+  {
+    "query_id": "topic_retrieval_008",
+    "query_text": "What inconsistency was discovered in the ancient ruler's backstory and how was it resolved?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "lore_narrative_001"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_005",
+      "lore_narrative_004",
+      "lore_narrative_006"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Clear dragon lore discussion, confounders involve other Thornhold lore but different aspects"
+  },
+  {
+    "query_id": "topic_retrieval_004",
+    "query_text": "What balance changes were needed for the support caster's kit after player feedback?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "game_design_001"
+    ],
+    "hard_negative_ids": [
+      "game_design_005",
+      "game_design_004",
+      "game_design_007"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Several class balance discussions, requires identifying channeler-specific vs other class changes"
+  },
+  {
+    "query_id": "topic_retrieval_014",
+    "query_text": "What memory management issues were discovered in the component system architecture?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "engineering_004"
+    ],
+    "hard_negative_ids": [
+      "engineering_005",
+      "engineering_007",
+      "general_004"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Requires distinguishing specific ECS memory issues from general performance problems"
+  },
+  {
+    "query_id": "topic_retrieval_007",
+    "query_text": "How did the character team establish visual identity for the heavily augmented warrior class?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "art_direction_002"
+    ],
+    "hard_negative_ids": [
+      "art_direction_008",
+      "art_direction_007",
+      "art_direction_009"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Multiple character design conversations, requires distinguishing cyberknight vs other class designs"
+  },
+  {
+    "query_id": "topic_retrieval_018",
+    "query_text": "What container orchestration failures occurred during peak magical events and how were they resolved?",
+    "scenario": "topic_retrieval",
+    "relevant_conversation_ids": [
+      "devops_infra_007"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_009",
+      "devops_infra_010",
+      "devops_infra_004"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Multiple k8s scaling conversations, requires identifying ley tide specific vs general autoscaling issues"
+  },
+  {
+    "query_id": "cross_channel_011",
+    "query_text": "How do server architecture decisions impact the design of multiplayer encounter mechanics?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "devops_infra_002",
+      "game_design_002"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_008",
+      "game_design_008",
+      "engineering_007"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Infrastructure limitations affecting multiplayer gameplay design"
+  },
+  {
+    "query_id": "cross_channel_017",
+    "query_text": "How do team coordination efforts address issues that span both technical implementation and creative design?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "general_001",
+      "engineering_002"
+    ],
+    "hard_negative_ids": [
+      "general_005",
+      "engineering_009",
+      "art_direction_004"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Project management coordination across technical and creative disciplines"
+  },
+  {
+    "query_id": "cross_channel_002",
+    "query_text": "What balance changes were made to support caster class abilities and how do they affect infrastructure scaling?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "game_design_001",
+      "devops_infra_002"
+    ],
+    "hard_negative_ids": [
+      "game_design_005",
+      "devops_infra_008",
+      "engineering_005"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Complex relationship between game balance decisions and server resource requirements"
+  },
+  {
+    "query_id": "cross_channel_009",
+    "query_text": "How do character balance adjustments require changes to both database schema and user interface elements?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "game_design_003",
+      "engineering_003"
+    ],
+    "hard_negative_ids": [
+      "game_design_011",
+      "engineering_010",
+      "art_direction_006"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Technical implementation requirements for gameplay balance changes"
+  },
+  {
+    "query_id": "cross_channel_008",
+    "query_text": "What coordination is needed between story elements and visual effects for magical ability representations?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "lore_narrative_002",
+      "art_direction_001"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_008",
+      "art_direction_005",
+      "game_design_007"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Creative collaboration between narrative and VFX for magical systems"
+  },
+  {
+    "query_id": "cross_channel_001",
+    "query_text": "How do server performance optimizations interact with visual effect systems during high player load events?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "engineering_001",
+      "art_direction_001"
+    ],
+    "hard_negative_ids": [
+      "engineering_006",
+      "art_direction_005"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Requires understanding connection between backend performance work and VFX rendering impact"
+  },
+  {
+    "query_id": "cross_channel_005",
+    "query_text": "How do database performance issues impact both character progression systems and visual feedback?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "engineering_003",
+      "general_002"
+    ],
+    "hard_negative_ids": [
+      "engineering_011",
+      "general_008",
+      "devops_infra_005"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Database problems affecting multiple game systems across disciplines"
+  },
+  {
+    "query_id": "cross_channel_010",
+    "query_text": "What visual storytelling techniques support the lore around dimensional contamination in different areas?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "art_direction_003",
+      "lore_narrative_003"
+    ],
+    "hard_negative_ids": [
+      "art_direction_012",
+      "lore_narrative_009",
+      "general_006"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Environmental art and world lore collaboration for dimensional themes"
+  },
+  {
+    "query_id": "cross_channel_006",
+    "query_text": "What narrative elements need to be considered when designing the visual atmosphere of different game zones?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "lore_narrative_001",
+      "art_direction_003"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_005",
+      "art_direction_012",
+      "general_002"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Straightforward connection between story and environmental art"
+  },
+  {
+    "query_id": "cross_channel_014",
+    "query_text": "What narrative consistency issues arise when implementing faction-based content across different game systems?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "lore_narrative_001",
+      "game_design_001"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_005",
+      "game_design_005",
+      "art_direction_007"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Story and gameplay balance intersection for faction mechanics"
+  },
+  {
+    "query_id": "cross_channel_012",
+    "query_text": "What considerations link character progression system changes with overall project coordination?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "game_design_003",
+      "general_003"
+    ],
+    "hard_negative_ids": [
+      "game_design_010",
+      "general_011",
+      "engineering_003"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "High-level project management around gameplay systems"
+  },
+  {
+    "query_id": "cross_channel_004",
+    "query_text": "What technical constraints influenced the design of large-scale group content mechanics?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "engineering_002",
+      "game_design_002"
+    ],
+    "hard_negative_ids": [
+      "engineering_009",
+      "game_design_008",
+      "devops_infra_001"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Relationship between technical architecture decisions and gameplay design choices"
+  },
+  {
+    "query_id": "cross_channel_013",
+    "query_text": "How do performance optimization efforts coordinate between rendering systems and backend processing?",
+    "scenario": "cross_channel",
+    "relevant_conversation_ids": [
+      "engineering_001",
+      "art_direction_002"
+    ],
+    "hard_negative_ids": [
+      "engineering_006",
+      "art_direction_008",
+      "devops_infra_004"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Technical performance work spanning client and server optimization"
+  },
+  {
+    "query_id": "specific_detail_010",
+    "query_text": "What exact age was decided upon for the ancient ruler to fix the timeline inconsistency?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "lore_narrative_005"
+    ],
+    "hard_negative_ids": [
+      "lore_narrative_001",
+      "lore_narrative_006",
+      "lore_narrative_004"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Looks for Sylithra's age being set to 275 years old, a very specific numerical detail in character development"
+  },
+  {
+    "query_id": "specific_detail_017",
+    "query_text": "Which specific shader technique was chosen to achieve the non-euclidean geometry effects in alien architecture zones?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "art_direction_005"
+    ],
+    "hard_negative_ids": [
+      "art_direction_001",
+      "art_direction_006",
+      "art_direction_004"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Searches for ley energy patterns and particle anchors used in Archive dimension geometry shaders"
+  },
+  {
+    "query_id": "specific_detail_018",
+    "query_text": "What exact replication factor was implemented for the critical message durability system to ensure consciousness transfer reliability?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "devops_infra_003"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_010",
+      "devops_infra_011",
+      "devops_infra_012"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Looks for triple replication mentioned in NATS JetStream architecture for clone transfer system reliability"
+  },
+  {
+    "query_id": "specific_detail_015",
+    "query_text": "What specific query pattern was identified as the root cause of the connection exhaustion during major events?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "devops_infra_001"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_005",
+      "devops_infra_006",
+      "devops_infra_009"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Searches for N+1 query problems identified in CockroachDB performance investigation"
+  },
+  {
+    "query_id": "specific_detail_014",
+    "query_text": "Which component cleanup mechanism was implemented to resolve the memory accumulation in instanced content?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "engineering_004"
+    ],
+    "hard_negative_ids": [
+      "engineering_005",
+      "engineering_006",
+      "engineering_007"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Looks for TTL and cleanup mechanisms for ley resonance system memory leaks"
+  },
+  {
+    "query_id": "specific_detail_016",
+    "query_text": "What exact numerical threshold for the character attribute system was causing unintended micro-dimensional tears?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "game_design_004"
+    ],
+    "hard_negative_ids": [
+      "game_design_005",
+      "game_design_006",
+      "game_design_001"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Looks for the 4.0 Essence threshold where Channelers create micro-rifts, a very specific game mechanic detail"
+  },
+  {
+    "query_id": "specific_detail_005",
+    "query_text": "How many person groups would the proposed new tier of instanced content accommodate?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "game_design_002"
+    ],
+    "hard_negative_ids": [
+      "game_design_008",
+      "game_design_008",
+      "game_design_009"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Searches for the 15-person Advanced tier rift proposal to bridge progression gap"
+  },
+  {
+    "query_id": "specific_detail_013",
+    "query_text": "What specific multiplier error was discovered in the spawn rate algorithm that caused excessive density?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "general_002"
+    ],
+    "hard_negative_ids": [
+      "general_008",
+      "general_006",
+      "general_009"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Searches for the 3x multiplication bug in Thornhold rift spawn rates instead of addition"
+  },
+  {
+    "query_id": "specific_detail_004",
+    "query_text": "What exact mathematical operation was incorrectly implemented in the damage scaling system?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "game_design_001"
+    ],
+    "hard_negative_ids": [
+      "game_design_005",
+      "game_design_006",
+      "game_design_004"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Looks for the multiplicative vs additive stacking bug in Channeler ley tide bonuses, requiring specific technical understanding"
+  },
+  {
+    "query_id": "specific_detail_011",
+    "query_text": "Which specific cloud infrastructure limit needed to be increased to handle the peak hour scaling failures?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "devops_infra_001"
+    ],
+    "hard_negative_ids": [
+      "devops_infra_005",
+      "devops_infra_007",
+      "devops_infra_008"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Searches for AWS limit increase mentioned as immediate fix for Agones fleet allocation failures"
+  },
+  {
+    "query_id": "specific_detail_002",
+    "query_text": "How many concurrent players can be supported in the largest instanced content after the recent architecture changes?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "engineering_002"
+    ],
+    "hard_negative_ids": [
+      "engineering_009",
+      "engineering_007",
+      "engineering_008"
+    ],
+    "difficulty": "easy",
+    "bm25_rank_1": false,
+    "notes": "Looks for the 40+ player capacity figure for Major Nexus rifts, with confounders discussing other scaling solutions"
+  },
+  {
+    "query_id": "specific_detail_003",
+    "query_text": "Which specific database index was missing that caused the distributed SQL performance bottleneck?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "engineering_001"
+    ],
+    "hard_negative_ids": [
+      "engineering_006",
+      "engineering_010",
+      "engineering_011"
+    ],
+    "difficulty": "hard",
+    "bm25_rank_1": false,
+    "notes": "Searches for the specific CockroachDB index mentioned in the Major Nexus rift performance fix, requiring precise technical detail extraction"
+  },
+  {
+    "query_id": "specific_detail_007",
+    "query_text": "Which rendering optimization technique was implemented to handle dense intersection areas in the visualization system?",
+    "scenario": "specific_detail",
+    "relevant_conversation_ids": [
+      "engineering_006"
+    ],
+    "hard_negative_ids": [
+      "art_direction_005",
+      "engineering_001",
+      "art_direction_001"
+    ],
+    "difficulty": "medium",
+    "bm25_rank_1": false,
+    "notes": "Searches for server-side culling and LOD system implementation for ley line visualization"
+  }
+]
