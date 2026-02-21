@@ -45,7 +45,10 @@ def build_cross_platform_task(
         )
 
     # Queries: messages from the held-out platform
-    held_out = [c for c in conversations if c.get("source") == held_out_platform and len(c["messages"]) >= 5]
+    held_out = [
+        c for c in conversations
+        if c.get("source") == held_out_platform and len(c["messages"]) >= 5
+    ]
     if len(held_out) < num_queries:
         num_queries = len(held_out)
 
