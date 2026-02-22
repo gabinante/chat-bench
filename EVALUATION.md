@@ -4,7 +4,7 @@
 
 No existing benchmark evaluates embedding models on chat/conversational retrieval. Here's what exists and what it covers:
 
-| Benchmark | Thread Retrieval | Response Retrieval | Summary-to-Thread | Cross-Platform | Informal Chat |
+| Benchmark | Thread Retrieval | Response Retrieval | Conversation Similarity | Cross-Platform | Informal Chat |
 |-----------|:---:|:---:|:---:|:---:|:---:|
 | MTEB (58+ datasets) | -- | -- | -- | -- | -- |
 | BEIR (18 datasets) | -- | -- | -- | -- | -- |
@@ -20,7 +20,7 @@ This is the project's strongest argument for existing. MTEB has 58+ English data
 
 ### 1. Genuinely novel tasks
 
-Thread Retrieval, Summary-to-Thread Matching, and Cross-Platform Transfer have no equivalents anywhere. Thread Discrimination (distinguishing semantically similar conversations) is also unique and well-designed with the confounder mechanism.
+Thread Retrieval, Conversation Similarity, and Cross-Platform Transfer have no equivalents anywhere. Thread Discrimination (distinguishing semantically similar conversations) is also unique and well-designed with the confounder mechanism.
 
 ### 2. Thoughtful hard negative design
 
@@ -36,7 +36,7 @@ Generation -> build -> evaluate -> compare is well-separated. The CLI is product
 
 ### 5. Practical task design
 
-"Find the conversation where we discussed X" (summary matching) and "which thread does this message belong to" (thread retrieval) are real workflows people perform daily in Slack/Discord. This is ecologically valid in a way that many academic benchmarks aren't.
+"Find conversations similar to this one" (conversation similarity) and "which thread does this message belong to" (thread retrieval) are real workflows people perform daily in Slack/Discord. This is ecologically valid in a way that many academic benchmarks aren't.
 
 ---
 

@@ -58,8 +58,7 @@ Each conversation must be a JSON object with these fields:
       "reactions": [{"emoji": "string", "users": ["author_id"]}]
     }
   ],
-  "cross_references": [],
-  "summary": "string (1-2 sentence summary of the conversation)"
+  "cross_references": []
 }"""
 
 QUERY_SCHEMA = """\
@@ -138,8 +137,9 @@ def phase_b_prompt(
     channel_context = format_channel_context(channel_id)
     seed_summaries = []
     for conv in seed_conversations:
+        tags = ", ".join(conv.get("topic_tags", []))
         seed_summaries.append(
-            f"- [{conv['conversation_id']}] \"{conv['title']}\": {conv['summary']}"
+            f"- [{conv['conversation_id']}] \"{conv['title']}\" [{tags}]"
         )
     seeds_text = "\n".join(seed_summaries)
 
@@ -190,8 +190,9 @@ def phase_d_prompt(conversations: list[dict]) -> str:
     """Phase D: Add cross-references between existing conversations."""
     conv_summaries = []
     for conv in conversations:
+        tags = ", ".join(conv.get("topic_tags", []))
         conv_summaries.append(
-            f"- [{conv['conversation_id']}] #{conv['channel']} \"{conv['title']}\": {conv['summary']}"
+            f"- [{conv['conversation_id']}] #{conv['channel']} \"{conv['title']}\" [{tags}]"
         )
     summaries_text = "\n".join(conv_summaries)
 
@@ -240,9 +241,10 @@ def phase_e_prompt(
             label = " [SEED]"
         elif conv.get("phase") == "confounder":
             label = f" [CONFOUNDER for {conv.get('confounder_for', '?')}]"
+        tags = ", ".join(conv.get("topic_tags", []))
         conv_summaries.append(
-            f"- [{conv['conversation_id']}] #{conv['channel']} \"{conv['title']}\": "
-            f"{conv['summary']}{label}"
+            f"- [{conv['conversation_id']}] #{conv['channel']} \"{conv['title']}\" "
+            f"[{tags}]{label}"
         )
     summaries_text = "\n".join(conv_summaries)
 

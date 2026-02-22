@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import logging
 import random
-import re
 from pathlib import Path
 
 import numpy as np
@@ -16,7 +15,7 @@ from .generate.schemas import Conversation, RetrievalQuery
 from .schemas import BenchmarkCorpusDoc, BenchmarkQuery, BenchmarkTask
 from .tasks.cross_platform import build_cross_platform_task
 from .tasks.response_retrieval import build_response_retrieval_task
-from .tasks.summary_matching import build_summary_matching_task
+from .tasks.conversation_similarity import build_conversation_similarity_task
 from .tasks.thread_retrieval import build_thread_retrieval_task
 
 console = Console()
@@ -30,10 +29,12 @@ def build_all_tasks(
     queries_dir: str | Path | None = None,
     output_dir: str | Path | None = None,
     seed: int = 42,
+    include_disco: bool = False,
+    disco_max_per_channel: int | None = None,
 ) -> None:
     """Build all benchmark tasks from the generated corpus.
 
-    Creates 6 task JSON files + dev/test splits.
+    Creates task JSON files + dev/test splits.
     """
     corpus_path = Path(corpus_dir) if corpus_dir else _DATA_DIR / "corpus"
     queries_path = Path(queries_dir) if queries_dir else _DATA_DIR / "queries"
@@ -49,10 +50,17 @@ def build_all_tasks(
         console.print("[red]No conversations found. Run 'chat-bench generate' first.[/]")
         return
 
-    console.print(f"Loaded {len(conversations)} conversations")
+    console.print(f"Loaded {len(conversations)} synthetic conversations")
 
     # Backfill platform from channel config (raw corpus may lack platform field)
     _backfill_platforms(conversations)
+
+    # Merge DISCO conversations if requested
+    if include_disco:
+        from .disco import get_disco_conversations
+        disco_convs = get_disco_conversations(max_per_channel=disco_max_per_channel)
+        conversations.extend(disco_convs)
+        console.print(f"Added {len(disco_convs)} DISCO conversations (total: {len(conversations)})")
 
     # Load queries
     all_queries: dict[str, list[RetrievalQuery]] = {}
@@ -99,11 +107,11 @@ def build_all_tasks(
         )
         _write_task(output_path, "response_retrieval", resp_task)
 
-    # Build summary_matching task (using transformed summaries as queries)
-    summaries = _transform_summaries_for_retrieval(conversations)
-    if summaries:
-        summary_task = build_summary_matching_task(conv_dicts, summaries)
-        _write_task(output_path, "summary_matching", summary_task)
+    # Build conversation_similarity task (seed → confounder relationships)
+    confounder_map = _build_confounder_map_from_corpus(conversations)
+    if confounder_map:
+        cs_task = build_conversation_similarity_task(conv_dicts, confounder_map)
+        _write_task(output_path, "conversation_similarity", cs_task)
 
     # Build cross_platform task (programmatic)
     if conv_dicts:
@@ -226,53 +234,23 @@ def _build_query_task(
     )
 
 
-def _transform_summaries_for_retrieval(
+def _build_confounder_map_from_corpus(
     conversations: list[Conversation],
-) -> list[dict]:
-    """Convert factual summaries to indirect information-need queries.
+) -> dict[str, list[str]]:
+    """Build seed -> confounder mapping from phase and confounder_for fields.
 
-    Strips leading "Team discusses/debugs/designs..." patterns and converts
-    to a shorter, less lexically overlapping form using channel name,
-    participants, and a topic phrase.
+    Reads the phase ('seed', 'confounder') and confounder_for fields
+    set during generation to construct the mapping.
     """
-    # Patterns to strip from beginning of summaries
-    strip_patterns = re.compile(
-        r"^(The\s+)?team\s+(discusses?|debugs?|designs?|reviews?|brainstorms?|investigates?|works?\s+on|talks?\s+about|explores?)\s+",
-        re.IGNORECASE,
-    )
+    seeds = {c.conversation_id for c in conversations if c.phase == "seed"}
+    confounder_map: dict[str, list[str]] = {sid: [] for sid in seeds}
 
-    summaries = []
     for conv in conversations:
-        if not conv.summary or len(conv.messages) <= 5:
-            continue
+        if conv.phase == "confounder" and conv.confounder_for in seeds:
+            confounder_map[conv.confounder_for].append(conv.conversation_id)
 
-        # Start with the summary, strip leading team action phrases
-        text = strip_patterns.sub("", conv.summary).strip()
-
-        # Capitalize first letter after stripping
-        if text:
-            text = text[0].upper() + text[1:]
-
-        # Build an information-need style query
-        # Use channel + shortened topic rather than the full factual summary
-        channel_label = conv.channel.replace("_", " ")
-        participants_str = ""
-        if conv.participants:
-            participants_str = f" involving {', '.join(conv.participants[:2])}"
-
-        # Truncate to first sentence or 80 chars, whichever is shorter
-        first_sentence = text.split(".")[0].strip()
-        if len(first_sentence) > 80:
-            first_sentence = first_sentence[:77] + "..."
-
-        query_text = f"{first_sentence} in {channel_label}{participants_str}"
-
-        summaries.append({
-            "conversation_id": conv.conversation_id,
-            "summary_text": query_text,
-        })
-
-    return summaries
+    # Remove seeds with no confounders
+    return {k: v for k, v in confounder_map.items() if v}
 
 
 def _write_task(

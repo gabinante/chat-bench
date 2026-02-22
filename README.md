@@ -24,7 +24,7 @@ ChatBench includes four programmatic tasks derived directly from conversation st
 |------|-------------|--------|
 | **Thread Retrieval** | Given a message, find the correct conversation thread | MRR@10, R@1/5/10 |
 | **Response Retrieval** | Given a conversation prefix, find the continuation | MRR@10, R@5 |
-| **Summary Matching** | Given a natural language summary, find the matching thread | MRR@10, NDCG@10 |
+| **Conversation Similarity** | Given a conversation, find the most similar conversation | MRR@10, NDCG@10 |
 | **Cross-Platform Transfer** | Thread retrieval on a held-out platform (e.g., Discord) | MRR@10, R@1/5/10 |
 
 **Generated query tasks** (BM25-filtered, deduplicated):

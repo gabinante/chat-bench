@@ -5,6 +5,9 @@
 data/raw/
 data/corpus/
 data/metadata/
+data/tasks/
+data/splits/
+data/queries/
 
 # Python
 __pycache__/

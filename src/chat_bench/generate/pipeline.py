@@ -133,7 +133,7 @@ def _run_phase_a(client: GenerationClient, state) -> None:
             if not isinstance(conversations, list):
                 conversations = [conversations]
 
-            _append_conversations(conversations, platform=platform)
+            _append_conversations(conversations, platform=platform, phase="seed")
             count = len(conversations)
             state.phases["A"].conversations_generated += count
             state.phases["A"].batches_completed += 1
@@ -183,7 +183,7 @@ def _run_phase_b(client: GenerationClient, state) -> None:
             if not isinstance(confounders, list):
                 confounders = [confounders]
 
-            _append_conversations(confounders, platform=platform)
+            _append_conversations(confounders, platform=platform, phase="confounder")
             count = len(confounders)
             state.phases["B"].conversations_generated += count
             state.phases["B"].batches_completed += 1
@@ -215,7 +215,7 @@ def _run_phase_c(client: GenerationClient, state) -> None:
             if not isinstance(noise, list):
                 noise = [noise]
 
-            _append_conversations(noise, platform=platform)
+            _append_conversations(noise, platform=platform, phase="noise")
             count = len(noise)
             state.phases["C"].conversations_generated += count
             state.phases["C"].batches_completed += 1
@@ -283,7 +283,7 @@ def _run_phase_e(client: GenerationClient, state) -> None:
             "conversation_id": c.conversation_id,
             "channel": c.channel,
             "title": c.title,
-            "summary": c.summary,
+            "topic_tags": c.topic_tags,
             "phase": c.phase,
             "confounder_for": c.confounder_for,
         }
@@ -319,7 +319,10 @@ def _run_phase_e(client: GenerationClient, state) -> None:
 
         console.print(f"    Raw: {len(all_queries)} queries")
 
-        # Deduplicate by query_id AND text similarity
+        # Assign unique IDs before dedup (LLM reuses IDs across batches)
+        _assign_query_ids(all_queries, scenario)
+
+        # Deduplicate by text similarity (IDs are now unique)
         unique = _deduplicate_queries(all_queries)
         console.print(f"    After dedup: {len(unique)} queries")
 
@@ -338,6 +341,15 @@ def _run_phase_e(client: GenerationClient, state) -> None:
         console.print(f"    [green]Final: {len(filtered)} queries for {scenario}[/]")
 
     state.phases["E"].total_batches = len(QUERY_SCENARIOS) * QUERY_BATCHES_PER_SCENARIO
+
+
+def _assign_query_ids(queries: list[RetrievalQuery], scenario: str) -> None:
+    """Assign unique sequential query IDs within a scenario.
+
+    Replaces whatever IDs the LLM generated with deterministic sequential IDs.
+    """
+    for i, q in enumerate(queries, 1):
+        q.query_id = f"{scenario}_{i:03d}"
 
 
 def _deduplicate_queries(queries: list[RetrievalQuery]) -> list[RetrievalQuery]:
@@ -467,19 +479,25 @@ def _run_phase_f(state) -> None:
 # -- Confounder map and phase metadata --
 
 def _build_confounder_map(conversations: list[Conversation]) -> dict[str, list[str]]:
-    """Reconstruct seed→confounder mapping from deterministic ID numbering.
+    """Build seed→confounder mapping using the phase field and ID ordering.
 
-    Per channel: IDs 0..S-1 are seeds, S..S+S*C-1 are confounders (C per seed),
-    where S = SEEDS_PER_CHANNEL and C = CONFOUNDERS_PER_SEED.
-    Remaining positions are noise.
+    Seeds and confounders are tagged at write time (phase="seed" / "confounder").
+    Within each channel, confounders are assigned round-robin to seeds by ID order:
+    the first CONFOUNDERS_PER_SEED confounders map to the first seed, etc.
 
     Returns:
         dict mapping seed conversation_id → list of confounder conversation_ids
     """
-    n_seeds = SEEDS_PER_CHANNEL
     n_conf = CONFOUNDERS_PER_SEED
 
-    # Group conversations by channel
+    def _sort_key(c: Conversation) -> int:
+        parts = c.conversation_id.rsplit("_", 1)
+        try:
+            return int(parts[-1])
+        except (ValueError, IndexError):
+            return 999
+
+    # Group by channel
     by_channel: dict[str, list[Conversation]] = {}
     for c in conversations:
         by_channel.setdefault(c.channel, []).append(c)
@@ -487,18 +505,12 @@ def _build_confounder_map(conversations: list[Conversation]) -> dict[str, list[s
     confounder_map: dict[str, list[str]] = {}
 
     for channel_id, convs in by_channel.items():
-        # Sort by numeric suffix to get deterministic ordering
-        def _sort_key(c: Conversation) -> int:
-            parts = c.conversation_id.rsplit("_", 1)
-            try:
-                return int(parts[-1])
-            except (ValueError, IndexError):
-                return 999
-        convs_sorted = sorted(convs, key=_sort_key)
-
-        # Assign phases based on position
-        seeds = convs_sorted[:n_seeds]
-        confounders = convs_sorted[n_seeds:n_seeds + n_seeds * n_conf]
+        seeds = sorted(
+            [c for c in convs if c.phase == "seed"], key=_sort_key
+        )
+        confounders = sorted(
+            [c for c in convs if c.phase == "confounder"], key=_sort_key
+        )
 
         for i, seed in enumerate(seeds):
             conf_start = i * n_conf
@@ -512,26 +524,22 @@ def _build_confounder_map(conversations: list[Conversation]) -> dict[str, list[s
 
 
 def _backfill_phase_metadata(conversations: list[Conversation]) -> None:
-    """Set phase and confounder_for on each conversation using the confounder map."""
+    """Set confounder_for on confounder conversations using the confounder map.
+
+    Phase tags (seed/confounder/noise) are set at write time by _append_conversations.
+    This only fills in the confounder_for field which requires the full map.
+    """
     confounder_map = _build_confounder_map(conversations)
 
     # Build reverse map: confounder_id → seed_id
     reverse_map: dict[str, str] = {}
-    seed_ids = set(confounder_map.keys())
-    confounder_ids: set[str] = set()
     for seed_id, conf_ids in confounder_map.items():
         for cid in conf_ids:
             reverse_map[cid] = seed_id
-            confounder_ids.add(cid)
 
     for conv in conversations:
-        if conv.conversation_id in seed_ids:
-            conv.phase = "seed"
-        elif conv.conversation_id in confounder_ids:
-            conv.phase = "confounder"
+        if conv.phase == "confounder" and conv.conversation_id in reverse_map:
             conv.confounder_for = reverse_map[conv.conversation_id]
-        else:
-            conv.phase = "noise"
 
 
 # -- Channel ID normalization --
@@ -590,15 +598,85 @@ def _clear_generated_data() -> None:
 
 # -- Corpus I/O helpers --
 
-def _append_conversations(
-    conversations: list[Conversation], platform: str = "slack",
-) -> None:
-    """Append conversations to the JSONL corpus file (normalizes channel IDs).
 
-    Sets platform on each conversation as a fallback if not already set by the LLM.
+def _get_channel_counters() -> dict[str, int]:
+    """Scan existing corpus and return the next available number per channel.
+
+    Returns a dict mapping channel_id to the next unused integer suffix.
+    For example, if engineering_001 through engineering_015 exist, returns
+    {"engineering": 16}.
+    """
+    import re
+
+    counters: dict[str, int] = {}
+    if not _CORPUS_PATH.exists():
+        return counters
+
+    with open(_CORPUS_PATH) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            data = json.loads(line)
+            cid = data.get("conversation_id", "")
+            m = re.match(r"^(.+)_(\d+)$", cid)
+            if m:
+                channel, num = m.group(1), int(m.group(2))
+                counters[channel] = max(counters.get(channel, 0), num + 1)
+    return counters
+
+
+def _assign_ids(conversations: list[Conversation]) -> None:
+    """Assign unique, deterministic conversation_id and message_id values.
+
+    Reads the existing corpus to find the next available number per channel,
+    then assigns sequential IDs regardless of what the LLM generated.
+    """
+    counters = _get_channel_counters()
+
+    for conv in conversations:
+        channel = conv.channel
+        num = counters.get(channel, 1)
+        counters[channel] = num + 1
+
+        new_conv_id = f"{channel}_{num:03d}"
+        conv.conversation_id = new_conv_id
+
+        # Reassign message IDs
+        for i, msg in enumerate(conv.messages, 1):
+            msg.message_id = f"{new_conv_id}_msg_{i:03d}"
+
+        # Fix reply_to references within the same conversation
+        # (these reference old message IDs the LLM generated — remap them)
+        old_msg_ids = {}
+        for i, msg in enumerate(conv.messages, 1):
+            # Build mapping from position to new ID (already assigned above)
+            old_msg_ids[i] = msg.message_id
+
+        # reply_to can only reference messages within the same conversation,
+        # so remap by finding the referenced position
+        # Since we don't have a reliable old->new mapping, clear invalid reply_to
+        valid_ids = {msg.message_id for msg in conv.messages}
+        for msg in conv.messages:
+            if msg.reply_to and msg.reply_to not in valid_ids:
+                msg.reply_to = None
+
+
+def _append_conversations(
+    conversations: list[Conversation],
+    platform: str = "slack",
+    phase: str = "",
+) -> None:
+    """Append conversations to the JSONL corpus file.
+
+    Normalizes channel IDs, assigns unique conversation/message IDs, tags
+    with generation phase, and sets platform as a fallback.
     """
     _normalize_conversations(conversations)
+    _assign_ids(conversations)
     for conv in conversations:
+        if phase:
+            conv.phase = phase
         if not conv.platform or conv.platform == "slack":
             conv.platform = platform
     with open(_CORPUS_PATH, "a") as f:

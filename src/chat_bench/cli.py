@@ -24,7 +24,7 @@ def main():
 @main.command()
 @click.argument("model_path", required=False, default=None)
 @click.option("--bm25", is_flag=True, help="Use BM25 lexical baseline instead of a neural model")
-@click.option("--tasks-dir", default="data/tasks", help="Directory containing task JSON files")
+@click.option("--tasks-dir", default=None, help="Local tasks dir (auto-downloads if not set)")
 @click.option("--task", "task_name", default=None, help="Run a specific task only")
 @click.option("--batch-size", default=128, type=int)
 @click.option("--output", default=None, help="Save results JSON to this path")
@@ -53,11 +53,14 @@ def evaluate(
         model = SentenceTransformer(model_path, **load_kwargs)
         display_name = model_path
 
-    tasks_path = Path(tasks_dir)
-    if not tasks_path.exists():
-        console.print(f"[red]Tasks directory not found: {tasks_path}[/]")
-        console.print("Run 'chat-bench build' first to create benchmark tasks.")
-        return
+    if tasks_dir:
+        tasks_path = Path(tasks_dir)
+        if not tasks_path.exists():
+            console.print(f"[red]Tasks directory not found: {tasks_path}[/]")
+            return
+    else:
+        from .data import get_tasks_dir
+        tasks_path = get_tasks_dir()
 
     task_files = sorted(tasks_path.glob("*.json"))
     if task_name:
@@ -107,7 +110,7 @@ def evaluate(
 @main.command()
 @click.option("--models", multiple=True, help="Model paths/IDs to compare")
 @click.option("--include-baselines", is_flag=True, help="Include all baseline models")
-@click.option("--tasks-dir", default="data/tasks")
+@click.option("--tasks-dir", default=None, help="Local tasks dir (auto-downloads if not set)")
 @click.option("--batch-size", default=128, type=int)
 def compare(models: tuple[str, ...], include_baselines: bool, tasks_dir: str, batch_size: int):
     """Compare multiple models on ChatBench."""
@@ -128,7 +131,12 @@ def compare(models: tuple[str, ...], include_baselines: bool, tasks_dir: str, ba
         console.print("[yellow]No models specified. Use --models or --include-baselines[/]")
         return
 
-    tasks_path = Path(tasks_dir)
+    if tasks_dir:
+        tasks_path = Path(tasks_dir)
+    else:
+        from .data import get_tasks_dir
+        tasks_path = get_tasks_dir()
+
     task_files = sorted(tasks_path.glob("*.json"))
 
     all_results: list[EvalResult] = []
@@ -177,7 +185,7 @@ def list_tasks():
 
     table.add_row("thread_retrieval", "Find the correct thread for a message", "Thread search")
     table.add_row("response_retrieval", "Find the continuation of a conversation", "Temporal coherence")
-    table.add_row("summary_matching", "Match a description to a conversation", "Semantic search")
+    table.add_row("conversation_similarity", "Find conversations about similar topics", "Semantic similarity")
     table.add_row("cross_platform", "Thread retrieval on held-out platform data", "Generalization")
     table.add_row("topic_retrieval", "Find conversations by topic description", "Topic search")
     table.add_row("specific_detail", "Find conversations with a specific detail", "Detail search")
@@ -215,11 +223,18 @@ def generate(phase: str, model: str, resume: bool):
 @click.option("--corpus-dir", default="data/corpus", help="Directory with conversations.jsonl")
 @click.option("--queries-dir", default="data/queries", help="Directory with query JSONL files")
 @click.option("--output-dir", default="data/tasks", help="Output directory for task JSON files")
-def build(corpus_dir: str, queries_dir: str, output_dir: str):
+@click.option("--include-disco", is_flag=True, help="Include DISCO real Discord conversations")
+@click.option("--disco-max-per-channel", default=None, type=int,
+              help="Max DISCO conversations per channel")
+def build(corpus_dir: str, queries_dir: str, output_dir: str,
+          include_disco: bool, disco_max_per_channel: int | None):
     """Build benchmark tasks from generated corpus."""
     from .build import build_all_tasks
 
-    build_all_tasks(corpus_dir=corpus_dir, queries_dir=queries_dir, output_dir=output_dir)
+    build_all_tasks(
+        corpus_dir=corpus_dir, queries_dir=queries_dir, output_dir=output_dir,
+        include_disco=include_disco, disco_max_per_channel=disco_max_per_channel,
+    )
 
 
 if __name__ == "__main__":

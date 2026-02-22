@@ -10,7 +10,7 @@ Standalone benchmark for evaluating embedding models on chat/conversational retr
 ## Architecture
 - **Package:** `chat_bench` (src/chat_bench/)
 - **CLI:** `chat-bench evaluate`, `chat-bench compare`, `chat-bench list`
-- **Tasks:** Thread Retrieval, Response Retrieval, Summary-to-Thread Matching, Cross-Platform Transfer
+- **Tasks:** Thread Retrieval, Response Retrieval, Conversation Similarity, Cross-Platform Transfer
 - **Metrics:** MRR@10, Recall@1/5/10, NDCG@10
 
 ## Key Commands
