@@ -15,7 +15,7 @@ from pathlib import Path
 
 import gradio as gr
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 
 # Task display order
 TASKS = [
@@ -144,16 +144,21 @@ def build_scatter(leaderboard: pd.DataFrame):
     if plot_df.empty:
         return None
 
-    fig = px.scatter(
-        plot_df,
-        x="Embedding Dims",
-        y="Average",
-        hover_name="Model",
+    # Use go.Scatter with plain Python lists to avoid plotly binary serialization
+    fig = go.Figure(data=go.Scatter(
+        x=plot_df["Embedding Dims"].tolist(),
+        y=plot_df["Average"].tolist(),
+        text=plot_df["Model"].tolist(),
+        mode="markers",
+        marker=dict(size=10),
+        hovertemplate="%{text}<br>Dims: %{x}<br>NDCG@10: %{y:.4f}<extra></extra>",
+    ))
+    fig.update_layout(
         title="Efficiency Frontier: Score vs. Embedding Size",
-        labels={"Embedding Dims": "Embedding Dims", "Average": "Average NDCG@10"},
+        xaxis_title="Embedding Dims",
+        yaxis_title="Average NDCG@10",
+        template="plotly_white",
     )
-    fig.update_traces(marker=dict(size=10))
-    fig.update_layout(template="plotly_white")
     return fig
 
 
