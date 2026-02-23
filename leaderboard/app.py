@@ -15,6 +15,7 @@ from pathlib import Path
 
 import gradio as gr
 import pandas as pd
+import plotly.express as px
 
 # Task display order
 TASKS = [
@@ -49,6 +50,7 @@ MODEL_META = {
     "lightonai/modernbert-embed-large": {"dims": 1024, "year": 2025, "type": "open"},
     "nomic-ai/nomic-embed-text-v2-moe": {"dims": 768, "year": 2025, "type": "open"},
     "intfloat/e5-mistral-7b-instruct": {"dims": 4096, "year": 2024, "type": "open"},
+    "text-embedding-3-small": {"dims": 1536, "year": 2024, "type": "api"},
     "bm25": {"dims": None, "year": None, "type": "lexical"},
 }
 
@@ -108,7 +110,7 @@ def build_leaderboard(results_df: pd.DataFrame) -> pd.DataFrame:
         meta = MODEL_META.get(model, {})
         meta_rows.append({
             "Model": model,
-            "Dims": meta.get("dims", ""),
+            "Embedding Dims": meta.get("dims", ""),
             "Year": meta.get("year", ""),
             "Type": meta.get("type", ""),
         })
@@ -129,6 +131,32 @@ def build_leaderboard(results_df: pd.DataFrame) -> pd.DataFrame:
     return leaderboard
 
 
+def build_scatter(leaderboard: pd.DataFrame):
+    """Build a Performance vs. Embedding Dims scatter plot."""
+    if leaderboard.empty or "Embedding Dims" not in leaderboard.columns:
+        return None
+
+    plot_df = leaderboard[["Model", "Embedding Dims", "Average"]].copy()
+    plot_df["Embedding Dims"] = pd.to_numeric(plot_df["Embedding Dims"], errors="coerce")
+    plot_df["Average"] = pd.to_numeric(plot_df["Average"], errors="coerce")
+    plot_df = plot_df.dropna(subset=["Embedding Dims", "Average"])
+
+    if plot_df.empty:
+        return None
+
+    fig = px.scatter(
+        plot_df,
+        x="Embedding Dims",
+        y="Average",
+        hover_name="Model",
+        title="Efficiency Frontier: Score vs. Embedding Size",
+        labels={"Embedding Dims": "Embedding Dims", "Average": "Average NDCG@10"},
+    )
+    fig.update_traces(marker=dict(size=10))
+    fig.update_layout(template="plotly_white")
+    return fig
+
+
 def create_app() -> gr.Blocks:
     """Create the Gradio leaderboard app."""
     # Try local first, then hub
@@ -143,40 +171,77 @@ def create_app() -> gr.Blocks:
 # ChatBench Leaderboard
 
 Benchmark results for embedding models on conversational retrieval tasks.
-All scores are **NDCG@10** (higher is better).
+All scores are **NDCG@10** (higher is better). Models are ranked by **Average** score across all tasks.
+
+**Column guide:** *Embedding Dims* = output vector size | *Type* = open-weight, API, or lexical | *Year* = model release year
 
 [GitHub](https://github.com/gabinante/chat-bench) |
 [Submit Results](https://github.com/gabinante/chat-bench/issues)
         """)
 
-        if leaderboard.empty:
-            gr.Markdown("""
+        with gr.Tabs():
+            with gr.Tab("Leaderboard"):
+                if leaderboard.empty:
+                    gr.Markdown("""
 **No results available yet.**
 
 Run baselines to populate:
 ```bash
 python scripts/run_baselines.py
 ```
-            """)
-        else:
-            gr.Dataframe(
-                value=leaderboard,
-                interactive=False,
-                wrap=False,
-            )
+                    """)
+                else:
+                    gr.Dataframe(
+                        value=leaderboard,
+                        interactive=False,
+                        wrap=False,
+                    )
 
-        gr.Markdown("""
----
-**Tasks:**
-- **Thread Retrieval**: Find the correct thread for a message
-- **Response Retrieval**: Find the continuation of a conversation
-- **Conversation Similarity**: Find topically similar conversations
-- **Cross-Platform Transfer**: Thread retrieval on held-out platform
-- **Topic Retrieval**: Find conversations by topic description
-- **Specific Detail**: Find conversations with a specific detail
-- **Cross-Channel**: Find related conversations across channels
-- **Thread Discrimination**: Distinguish similar conversations
-        """)
+                    fig = build_scatter(leaderboard)
+                    if fig is not None:
+                        gr.Plot(value=fig)
+
+            with gr.Tab("About"):
+                gr.Markdown("""
+## What is ChatBench?
+
+ChatBench is a benchmark for evaluating embedding models on **conversational retrieval** tasks.
+It measures how well models can encode and retrieve chat messages, threads, and conversations
+across a variety of realistic scenarios.
+
+## Metric: NDCG@10
+
+All scores use **Normalized Discounted Cumulative Gain at rank 10 (NDCG@10)**.
+This metric rewards models that place the correct result higher in a ranked list of 10 candidates.
+A perfect score of 1.0 means the correct answer is always ranked first.
+
+## Tasks
+
+| Task | Description |
+|------|-------------|
+| **Thread Retrieval** | Find the correct thread for a given message |
+| **Response Retrieval** | Find the continuation of a conversation |
+| **Conversation Similarity** | Find topically similar conversations |
+| **Cross-Platform Transfer** | Thread retrieval on a held-out platform |
+| **Topic Retrieval** | Find conversations matching a topic description |
+| **Specific Detail** | Find conversations containing a specific detail |
+| **Cross-Channel** | Find related conversations across channels |
+| **Thread Discrimination** | Distinguish between similar conversations |
+
+## How to Submit Results
+
+1. Run the benchmark on your model:
+   ```bash
+   pip install chat-bench
+   chat-bench evaluate your-model-name
+   ```
+2. Open an issue on the [GitHub repo](https://github.com/gabinante/chat-bench/issues) with your results JSON file attached.
+
+## Links
+
+- [GitHub Repository](https://github.com/gabinante/chat-bench)
+- [Submit Results](https://github.com/gabinante/chat-bench/issues)
+                """)
 
     return app
 
