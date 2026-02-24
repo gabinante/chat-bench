@@ -56,7 +56,7 @@ def evaluate_robustness(
         batch_size: Batch size for encoding.
         use_bm25: If True, use BM25 instead of neural model.
         seed: Random seed.
-        model_config: Baseline config dict with instruction prefixes.
+        model_config: Model config dict with instruction prefixes.
 
     Returns:
         RobustnessResult with stability metrics.

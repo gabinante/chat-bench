@@ -16,7 +16,7 @@ Standalone benchmark for evaluating embedding models on chat/conversational retr
 ## Key Commands
 ```bash
 chat-bench evaluate BAAI/bge-base-en-v1.5
-chat-bench compare --models model-a --models model-b --include-baselines
+chat-bench compare --models model-a --models model-b --include-registry
 ```
 
 ## Package Management

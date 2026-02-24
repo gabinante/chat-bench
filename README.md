@@ -87,8 +87,8 @@ Requires **Python >= 3.11**.
 # Evaluate a model
 chat-bench evaluate BAAI/bge-base-en-v1.5
 
-# Compare multiple models with built-in baselines
-chat-bench compare --models your-model --models BAAI/bge-base-en-v1.5 --include-baselines
+# Compare multiple models with built-in models
+chat-bench compare --models your-model --models BAAI/bge-base-en-v1.5 --include-registry
 
 # BM25 lexical baseline
 chat-bench evaluate --bm25
@@ -154,9 +154,9 @@ results = evaluation.run(model)
 
 Requires `pip install 'chat-bench[mteb]'`.
 
-## Baselines
+## Models
 
-ChatBench ships with 13 built-in baselines spanning classic and modern architectures:
+ChatBench ships with 13 built-in models spanning classic and modern architectures:
 
 | Model | Dims | Year | Notes |
 |-------|------|------|-------|
@@ -206,7 +206,7 @@ Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 
 To evaluate your own model, run `chat-bench evaluate your-org/your-model` and open a PR adding your results.
 
-To add a new baseline, edit `src/chat_bench/baselines.py`.
+To add a new model, edit `src/chat_bench/models.py`.
 
 ## Citing
 

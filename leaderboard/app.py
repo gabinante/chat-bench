@@ -193,9 +193,9 @@ All scores are **NDCG@10** (higher is better). Models are ranked by **Average** 
                     gr.Markdown("""
 **No results available yet.**
 
-Run baselines to populate:
+Run models to populate:
 ```bash
-python scripts/run_baselines.py
+python scripts/run_models.py
 ```
                     """)
                 else:

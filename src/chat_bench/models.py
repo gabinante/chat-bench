@@ -1,4 +1,4 @@
-"""Baseline models for ChatBench comparison."""
+"""Model registry for ChatBench evaluation."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ from __future__ import annotations
 #   doc_instruction: prefix prepended to documents before encoding
 #   trust_remote_code: passed to SentenceTransformer() constructor
 #   model_kwargs: additional kwargs for model loading
-BASELINES = {
-    # --- Classic / lightweight baselines ---
+MODELS = {
+    # --- Classic / lightweight ---
     "bge-base": {
         "model_id": "BAAI/bge-base-en-v1.5",
         "dims": 768,
@@ -23,9 +23,10 @@ BASELINES = {
         "query_instruction": "Represent this sentence for searching relevant passages: ",
     },
     "gte-base": {
-        "model_id": "thenlper/gte-base-en-v1.5",
+        "model_id": "Alibaba-NLP/gte-base-en-v1.5",
         "dims": 768,
         "type": "open",
+        "trust_remote_code": True,
     },
     "minilm": {
         "model_id": "all-MiniLM-L6-v2",
@@ -58,7 +59,7 @@ BASELINES = {
         "doc_instruction": "search_document: ",
         "trust_remote_code": True,
     },
-    # --- Modern baselines (2024-2025) ---
+    # --- Modern (2024-2025) ---
     "arctic-l-v2": {
         "model_id": "Snowflake/snowflake-arctic-embed-l-v2.0",
         "dims": 1024,
@@ -108,9 +109,9 @@ BASELINES = {
 }
 
 
-def get_baseline_config(model_id: str) -> dict | None:
-    """Look up baseline config by model_id. Returns the config dict or None."""
-    for config in BASELINES.values():
+def get_model_config(model_id: str) -> dict | None:
+    """Look up model config by model_id. Returns the config dict or None."""
+    for config in MODELS.values():
         if config["model_id"] == model_id:
             return config
     return None

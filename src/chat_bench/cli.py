@@ -8,7 +8,7 @@ from pathlib import Path
 import click
 from rich.console import Console
 
-from .baselines import BASELINES, get_baseline_config
+from .models import MODELS, get_model_config
 from .runner import evaluate_task, load_task, print_results_table
 from .schemas import EvalResult
 
@@ -31,26 +31,38 @@ def main():
 @click.option("--robustness", is_flag=True, help="Run robustness eval")
 @click.option("--n-paraphrases", default=5, type=int, help="Paraphrase variants")
 @click.option("--llm-paraphrase", is_flag=True, help="Use LLM paraphrasing")
+@click.option("--quiet", "-q", is_flag=True, help="Suppress console output (for scripted usage)")
 def evaluate(
     model_path: str | None, bm25: bool, tasks_dir: str, task_name: str | None,
     batch_size: int, output: str | None,
     robustness: bool, n_paraphrases: int, llm_paraphrase: bool,
+    quiet: bool,
 ):
     """Evaluate a model on ChatBench tasks."""
+    if quiet:
+        console.quiet = True
+        # Also suppress runner console output
+        from . import runner
+        runner.console.quiet = True
+
     if not bm25 and not model_path:
         console.print("[red]Provide a MODEL_PATH or use --bm25[/]")
         return
 
     model = None
     display_name = "bm25"
-    model_config = get_baseline_config(model_path) if model_path else None
+    model_config = get_model_config(model_path) if model_path else None
     if not bm25:
-        from sentence_transformers import SentenceTransformer
         console.print(f"[bold]Loading model: {model_path}[/]")
-        load_kwargs: dict = {}
-        if model_config and model_config.get("trust_remote_code"):
-            load_kwargs["trust_remote_code"] = True
-        model = SentenceTransformer(model_path, **load_kwargs)
+        if model_path and model_path.startswith("text-embedding-"):
+            from .openai_embed import OpenAIEmbedder
+            model = OpenAIEmbedder(model=model_path)
+        else:
+            from sentence_transformers import SentenceTransformer
+            load_kwargs: dict = {}
+            if model_config and model_config.get("trust_remote_code"):
+                load_kwargs["trust_remote_code"] = True
+            model = SentenceTransformer(model_path, **load_kwargs)
         display_name = model_path
 
     if tasks_dir:
@@ -109,26 +121,33 @@ def evaluate(
 
 @main.command()
 @click.option("--models", multiple=True, help="Model paths/IDs to compare")
-@click.option("--include-baselines", is_flag=True, help="Include all baseline models")
+@click.option("--include-registry", is_flag=True, help="Include all registered models")
 @click.option("--tasks-dir", default=None, help="Local tasks dir (auto-downloads if not set)")
 @click.option("--batch-size", default=128, type=int)
-def compare(models: tuple[str, ...], include_baselines: bool, tasks_dir: str, batch_size: int):
+@click.option("--quiet", "-q", is_flag=True, help="Suppress console output (for scripted usage)")
+def compare(models: tuple[str, ...], include_registry: bool, tasks_dir: str, batch_size: int,
+            quiet: bool):
     """Compare multiple models on ChatBench."""
+    if quiet:
+        console.quiet = True
+        from . import runner
+        runner.console.quiet = True
+
     from sentence_transformers import SentenceTransformer
 
     # Separate neural models from lexical baselines
     neural_models: list[str] = list(models)
     lexical_models: list[str] = []
 
-    if include_baselines:
-        for name, info in BASELINES.items():
+    if include_registry:
+        for name, info in MODELS.items():
             if info.get("type") == "lexical":
                 lexical_models.append(info["model_id"])
             else:
                 neural_models.append(info["model_id"])
 
     if not neural_models and not lexical_models:
-        console.print("[yellow]No models specified. Use --models or --include-baselines[/]")
+        console.print("[yellow]No models specified. Use --models or --include-registry[/]")
         return
 
     if tasks_dir:
@@ -145,7 +164,7 @@ def compare(models: tuple[str, ...], include_baselines: bool, tasks_dir: str, ba
     for model_path in neural_models:
         console.print(f"\n[bold]{'='*60}[/]")
         console.print(f"[bold green]Model: {model_path}[/]")
-        model_config = get_baseline_config(model_path)
+        model_config = get_model_config(model_path)
         load_kwargs: dict = {}
         if model_config and model_config.get("trust_remote_code"):
             load_kwargs["trust_remote_code"] = True
