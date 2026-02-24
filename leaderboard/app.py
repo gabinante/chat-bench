@@ -157,7 +157,10 @@ def build_scatter(leaderboard: pd.DataFrame):
         title="Efficiency Frontier: Score vs. Embedding Size",
         xaxis_title="Embedding Dims",
         yaxis_title="Average NDCG@10",
-        template="plotly_white",
+        template="plotly_dark",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font_color="#e0e0e0",
     )
     return fig
 
